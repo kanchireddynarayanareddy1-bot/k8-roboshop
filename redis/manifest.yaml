@@ -33,13 +33,15 @@ template:
           containerPort: 6379
 
       readinessProbe:
-        tcpSocket: /health
+        tcpSocket: 
+          path: /health
           port: 6379
         initialDelaySeconds: 10
         periodSeconds: 10
 
       livenessProbe:
         tcpSocket:
+          path: /health
           port: 6379
         initialDelaySeconds: 5
         periodSeconds: 55    
