@@ -26,25 +26,20 @@ template:
   spec:
     containers:
     - name: redis
-      image: narayanareddy2026/redis:v1
+      image: redis:7.0
       imagePullPolicy: Always
-      ports:
-        - name: liveness-port
-          containerPort: 6379
 
       readinessProbe:
         tcpSocket: 
-          path: /health
           port: 6379
         initialDelaySeconds: 10
         periodSeconds: 10
 
       livenessProbe:
         tcpSocket:
-          path: /health
           port: 6379
         initialDelaySeconds: 5
-        periodSeconds: 55    
+        periodSeconds: 5    
              
 ---
 apiVersion: v1
