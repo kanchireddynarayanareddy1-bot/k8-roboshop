@@ -9,7 +9,7 @@ data:
 
 ---  
 apiVersion: v1
-kind: deployment
+kind: Deployment
 metadata:
   name: catalogue
   namespace: roboshop
