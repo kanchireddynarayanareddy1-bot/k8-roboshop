@@ -6,59 +6,55 @@ metadata:
 data:
   MONGO: "true"
   MONGO_URL: "mongodb://mongodb:27017/catalogue"
-  
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: catalogue
   namespace: roboshop
+  # these are replica set labels
   labels:
     project: roboshop
     component: catalogue
-    environment: dev
     tier: backend
 spec:
-  replicas: 1  
+  replicas: 1
   selector:
-   matchLabels:
+    # these labels are used to select pods
+    matchLabels:
       project: roboshop
       component: catalogue
-      environment: dev
-      tier: backend     
+      tier: backend
+  # pod definition
   template:
     metadata:
       labels:
-          project: roboshop
-          component: catalogue
-          environment: dev
-          tier: backend
+        project: roboshop
+        component: catalogue
+        tier: backend
     spec:
       containers:
       - name: catalogue
-        image: narayanareddy2026/catalogue:v1
+        image: joindevops/catalogue:v1
+        imagePullPolicy: Always
         envFrom:
-          - configMapRef:
-              name: catalogue
-        imagePullPolicy: Always  
-
-      ports:
+        - configMapRef:
+            name: catalogue
+        ports:
         - name: liveness-port
-          containerPort: 8080      
-
-      readinessProbe:
-        httpGet:
-          path: /health
-          port: liveness-port
-        failureThreshold: 1
-        periodSeconds: 15
-
-      livenessProbe:
-        httpGet:
-          path: /health
-          port: liveness-port
-        failureThreshold: 1
-        periodSeconds: 15
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 15
 ---
 apiVersion: v1
 kind: Service
@@ -69,8 +65,8 @@ spec:
   selector:
     project: roboshop
     component: catalogue
-    environment: dev
     tier: backend
   ports:
-    - port: 8080
-      targetPort: 8080  
+    - protocol: TCP
+      port: 8080 # service port
+      targetPort: 8080 # container port
