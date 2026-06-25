@@ -17,26 +17,26 @@ spec:
       environment: dev
       tier: db
   template:
-  metadata:
-     labels:
-        project: roboshop
-        component: mongodb
-        environment: dev
-        tier: db
-spec:
-  conatainers:
-  - name: mongodb
-    image: narayanareddy2026/mongodb:v1  
-    readynessprobe:
-      tcpSocket:
-        port: 27017
-      intialDelaySeconds: 10
-      periodSeconds: 10
-    livenessProbe:
-      tcpSocket:
-        port: 27017
-      intialDelaySeconds: 5
-      periodSeconds: 5
+    metadata:
+      labels:
+          project: roboshop
+          component: mongodb
+          environment: dev
+          tier: db
+    spec:
+      conatainers:
+      - name: mongodb
+        image: narayanareddy2026/mongodb:v1  
+        readynessprobe:
+          tcpSocket:
+            port: 27017
+          intialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 27017
+          intialDelaySeconds: 5
+          periodSeconds: 5
 
 ---
 apiVersion: v1
