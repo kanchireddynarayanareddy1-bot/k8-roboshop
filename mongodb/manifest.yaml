@@ -24,19 +24,21 @@ spec:
           environment: dev
           tier: db
     spec:
-      conatainers:
+      containers:
       - name: mongodb
-        image: narayanareddy2026/mongodb:v1  
-        readynessprobe:
+        image: narayanareddy2026/mongodb:v1
+
+        readinessProbe:
           tcpSocket:
             port: 27017
-          intialDelaySeconds: 10
+          initialDelaySeconds: 10
           periodSeconds: 10
+
         livenessProbe:
           tcpSocket:
             port: 27017
-          intialDelaySeconds: 5
-          periodSeconds: 5
+          initialDelaySeconds: 5
+          periodSeconds: 55
 
 ---
 apiVersion: v1
