@@ -38,6 +38,8 @@ spec:
     - name: catalogue
       image: narayanareddy2026/catalogue:v1  
       imagePullPolicy: Always
+      envFrom:
+        - name: catalogue-config
       ports:
         - name: liveness-port
           containerPort: 8080
