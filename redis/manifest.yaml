@@ -22,7 +22,7 @@ spec:
         project: roboshop
         component: redis
         environment: dev
-      tier: db
+        tier: db
     spec:
       containers:
       - name: redis
