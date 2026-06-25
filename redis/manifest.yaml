@@ -16,10 +16,33 @@ spec:
       component: redis
       environment: dev
       tier: db
+template:
+  metadata:
+    labels:
+      project: roboshop
+      component: redis
+      environment: dev
+      tier: db
   spec:
     containers:
-     - name: redis
-       image: redis:07 
+    - name: redis
+      image: narayanareddy2026/redis:v1
+      imagePullPolicy: Always
+      ports:
+        - name: liveness-port
+          containerPort: 6379
+
+      readinessProbe:
+        tcpSocket: /health
+          port: 6379
+        initialDelaySeconds: 10
+        periodSeconds: 10
+
+      livenessProbe:
+        tcpSocket:
+          port: 6379
+        initialDelaySeconds: 5
+        periodSeconds: 55    
              
 ---
 apiVersion: v1

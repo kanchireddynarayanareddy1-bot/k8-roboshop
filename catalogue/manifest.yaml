@@ -1,72 +1,74 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: catalogue
+  name: catalogue-config
   namespace: roboshop
 data:
   MONGO: "true"
-  MONGO_URL: "mongodb://mongodb:27017/catalogue"
----
-apiVersion: apps/v1
-kind: Deployment
+  MONGO_URL: "mongodb://mongodb:27017/catalogue" 
+
+---  
+apiVersion: v1
+kind: deployment
 metadata:
   name: catalogue
   namespace: roboshop
-  # these are replica set labels
   labels:
     project: roboshop
-    component: catalogue
-    tier: backend
+    component: mongodb
+    environment: dev
+    tier: db
 spec:
   replicas: 1
   selector:
-    # these labels are used to select pods
-    matchLabels:
+    matchlabels:
       project: roboshop
-      component: catalogue
-      tier: backend
-  # pod definition
+      component: mongodb
+      environment: dev
+      tier: db
   template:
-    metadata:
-      labels:
-        project: roboshop
-        component: catalogue
-        tier: backend
-    spec:
-      containers:
-      - name: catalogue
-        image: joindevops/catalogue:v1
-        imagePullPolicy: Always
-        envFrom:
-        - configMapRef:
-            name: catalogue
-        ports:
+  metadata:
+    labels:
+      project: roboshop
+      component: mongodb
+      environment: dev
+      tier: db       
+  spec:
+    containers:
+     - name: catalogue
+       image: narayanareddy2026/catalogue:v1  
+       imagePullPolicy: Always
+       ports:
         - name: liveness-port
           containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: liveness-port
-          failureThreshold: 1
-          periodSeconds: 15
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: liveness-port
-          failureThreshold: 1
-          periodSeconds: 15
+    readinessProbe:
+      httpGet: 
+        path: /health
+        port: 8080
+      failureThreshold: 1
+      periodSeconds: 15
+    livenessProbe:
+      httpGet: 
+        path: /health
+        port: 8080
+      failureThreshold: 1
+      periodSeconds: 15
 ---
 apiVersion: v1
-kind: Service
+kind: service
 metadata:
-  name: catalogue
+  name: redis
   namespace: roboshop
 spec:
   selector:
     project: roboshop
-    component: catalogue
+    component: redis
+    environment: dev
     tier: backend
   ports:
-    - protocol: TCP
-      port: 8080 # service port
-      targetPort: 8080 # container port
+    - port: 8080
+      targetPort: 8080 
+
+      
+
+         
