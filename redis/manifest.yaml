@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
-  network: roboshop
+  namespace: roboshop
   labels:
     project: roboshop
     component: redis
@@ -10,7 +10,7 @@ metadata:
     tier: db
 spec:
   replicas: 1
-  selectors:
+  selector:
     matchLabels:
       project: roboshop
       component: redis
