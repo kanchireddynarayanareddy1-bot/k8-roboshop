@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 
+  namespace: roboshop
+  labels:
+    project: roboshop
+    component: mongodb
+    environment: dev
+    tier: db

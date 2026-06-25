@@ -28,7 +28,7 @@ metadata:
   name: redis
   namespace: roboshop
 spec: 
-  labels:
+  selector:
     project: roboshop
     component: redis
     environment: dev
