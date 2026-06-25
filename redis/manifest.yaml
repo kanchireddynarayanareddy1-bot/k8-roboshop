@@ -43,7 +43,7 @@ template:
              
 ---
 apiVersion: v1
-kind: service
+kind: Service
 metadata:
   name: redis
   namespace: roboshop
