@@ -99,7 +99,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: narayanareddy2026/frontend:v3
+        image: narayanareddy2026/frontend:v4
         imagePullPolicy: Always
         ports:
         - name: liveness-port
