@@ -7,7 +7,6 @@ metadata:
   labels:
     project: roboshop
     component: frontend
-    environment: dev
     tier: frontend
 spec:
   replicas: 1
@@ -16,7 +15,6 @@ spec:
     matchLabels:
       project: roboshop
       component: frontend
-      environment: dev
       tier: frontend
   # pod definition
   template:
@@ -24,17 +22,15 @@ spec:
       labels:
         project: roboshop
         component: frontend
-        environment: dev
         tier: frontend
     spec:
       containers:
       - name: frontend
-        image: narayanareddy2026/frontend:v1
+        image: joindevops/frontend:v1
         imagePullPolicy: Always
-
         ports:
         - name: liveness-port
-          containerPort: 80
+          containerPort: 8080
         readinessProbe:
           httpGet:
             path: /
@@ -47,6 +43,14 @@ spec:
             port: liveness-port
           failureThreshold: 1
           periodSeconds: 15
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: frontend
 ---
 apiVersion: v1
 kind: Service
@@ -58,9 +62,8 @@ spec:
   selector:
     project: roboshop
     component: frontend
-    environment: dev
     tier: frontend
   ports:
     - protocol: TCP
       port: 80 # service port
-      targetPort: 80 # container port
+      targetPort: 8080 # container port
